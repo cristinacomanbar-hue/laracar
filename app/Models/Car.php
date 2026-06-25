@@ -12,5 +12,6 @@ class Car extends Model
         'year',
         'price_per_day',
         'available',
+        'fuel_type',
     ];
 }
