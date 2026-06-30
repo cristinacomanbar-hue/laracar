@@ -13,5 +13,8 @@ class Car extends Model
         'price_per_day',
         'available',
         'fuel_type',
+        'transmission',
+        'seats',
+        'category',
     ];
 }

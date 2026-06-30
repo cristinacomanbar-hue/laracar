@@ -34,6 +34,33 @@ class CarForm
                         'Electric' => 'Electric',
                     ])
                     ->required(),
+                Select::make('category')
+                    ->options([
+                        'Economy' => 'Economy',
+                        'Compact' => 'Compact',
+                        'Sedan' => 'Sedan',
+                        'SUV' => 'SUV',
+                        'Pickup' => 'Pickup',
+                        'Luxury' => 'Luxury',
+                    ])
+                    ->required(),
+                Select::make('transmission')
+                    ->options([
+                        'Automatic' => 'Automatic',
+                        'Manual' => 'Manual',
+                    ])
+                    ->required(),
+
+               Select::make('seats')
+                    ->options([
+                        2 => '2 seats',
+                        4 => '4 seats',
+                        5 => '5 seats',
+                        7 => '7 seats',
+                        8 => '8 seats',
+                    ])
+                    ->required(),
+
                 Checkbox::make('available')
                     ->default(true),
             ]);

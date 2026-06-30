@@ -22,12 +22,21 @@ class CarsTable
                 TextColumn::make('year')
                     ->sortable(),
                 TextColumn::make('price_per_day')
-                    ->numeric()
+                    ->money('CAD')
                     ->sortable(),
                 TextColumn::make('fuel_type')
                     ->searchable()
                     ->sortable(),
 
+                TextColumn::make('category')
+                    ->searchable()
+                    ->sortable(),
+
+                TextColumn::make('transmission')
+                    ->searchable()
+                    ->sortable(),
+                TextColumn::make('seats')
+                    ->sortable(),
                 IconColumn::make('available')
                     ->boolean(),
 
