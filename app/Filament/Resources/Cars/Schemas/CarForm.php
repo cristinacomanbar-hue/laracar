@@ -6,6 +6,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Checkbox;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\FileUpload;
 
 class CarForm
 {
@@ -40,10 +41,16 @@ class CarForm
                         'Compact' => 'Compact',
                         'Sedan' => 'Sedan',
                         'SUV' => 'SUV',
+                        'VAN' => 'VAN',
                         'Pickup' => 'Pickup',
                         'Luxury' => 'Luxury',
                     ])
                     ->required(),
+
+                FileUpload::make('photo')
+                    ->image()
+                    ->directory('cars'),
+
                 Select::make('transmission')
                     ->options([
                         'Automatic' => 'Automatic',

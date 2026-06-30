@@ -16,5 +16,6 @@ class Car extends Model
         'transmission',
         'seats',
         'category',
+        'photo',
     ];
 }

@@ -7,6 +7,7 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Columns\IconColumn;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Table;
 
 class CarsTable
@@ -15,6 +16,12 @@ class CarsTable
     {
         return $table
             ->columns([
+               ImageColumn::make('photo')
+                    ->height(60)
+                    ->defaultImageUrl('/images/no-car.png')
+                    ->extraImgAttributes([
+                        'style' => 'object-fit: contain;',
+                    ]),
                 TextColumn::make('brand')
                     ->searchable(),
                 TextColumn::make('model')
