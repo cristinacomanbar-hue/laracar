@@ -46,10 +46,13 @@ class CarForm
                         'Luxury' => 'Luxury',
                     ])
                     ->required(),
+     
 
                 FileUpload::make('photo')
-                    ->image()
-                    ->directory('cars'),
+                ->image()
+                ->disk('public')
+                ->directory('cars')
+                ->visibility('public'),
 
                 Select::make('transmission')
                     ->options([

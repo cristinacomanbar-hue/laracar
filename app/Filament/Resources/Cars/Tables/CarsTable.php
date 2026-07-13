@@ -16,7 +16,9 @@ class CarsTable
     {
         return $table
             ->columns([
-               ImageColumn::make('photo')
+                ImageColumn::make('photo')
+                    ->disk('public')
+                    ->visibility('public')
                     ->height(60)
                     ->defaultImageUrl('/images/no-car.png')
                     ->extraImgAttributes([

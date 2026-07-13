@@ -27,6 +27,8 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->brandName('CDrive | Admin')
+            ->favicon(asset('favicon.svg'))
             ->login()
             ->colors([
                 'primary' => Color::Amber,
