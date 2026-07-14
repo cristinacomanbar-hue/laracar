@@ -19,32 +19,37 @@
         </a>
 
         <div class="navbar-nav ms-auto">
-            <a class="nav-link active" href="/">Home</a>
-            <a class="nav-link" href="#">Cars</a>
-            <a class="nav-link" href="#">Contact</a>
+           
+            <a class="nav-link active" href="/">{{ __('messages.home') }}</a>
+            <a class="nav-link" href="#">{{ __('messages.cars') }}</a>
+            <a class="nav-link" href="#">{{ __('messages.contact') }}</a>
+
+            <a class="nav-link" href="/?lang=en">EN</a>
+            <a class="nav-link" href="/?lang=fr">FR</a>
         </div>
+
+      
 
     </div>
 </nav>
 
 
+<div class="container mt-1">
 
-<div class="container mt-2">
-
-    <div class="text-center pt-3 pb-4">
+    <div class="text-center pt-2 pb-2">
 
         <img
             src="{{ asset('images/logo.png') }}"
             alt="CDrive"
-            class="img-fluid mb-2"
-            style="max-width: 400px;">
-
-        <p class="fs-5 text-dark-emphasis mb-4">
-            Affordable • Reliable • Ready for your next adventure
+            class="img-fluid mb-1"
+            style="max-width: 360px;">
+    
+        <p class="fs-5 text-dark-emphasis mt-2 mb-3">
+            {{ __('messages.tagline') }}
         </p>
        
         <a href="#" class="btn btn-warning btn-lg px-5 mb-3">
-            Browse Cars
+           {{ __('messages.browse_cars') }}
         </a>
 
     </div>
@@ -70,17 +75,17 @@
                             {{ $car->brand }} {{ $car->model }}
                         </h5>
 
-                        <p class="card-text">
-                            <strong>Year:</strong> {{ $car->year }}
+                        <p class="card-text">                           
+                            <strong>{{ __('messages.year') }}:</strong> {{ $car->year }}
                         </p>
 
                         <p class="card-text">
-                            <strong>Price:</strong>
-                            CA${{ number_format($car->price_per_day, 2) }} / day
+                            <strong>{{ __('messages.price') }}:</strong>                        
+                            CA${{ number_format($car->price_per_day, 2) }} {{ __('messages.per_day') }}
                         </p>
 
                         <a href="#" class="btn btn-warning mt-auto">
-                            View Details
+                             {{ __('messages.view_details') }}
                         </a>
 
                     </div>
