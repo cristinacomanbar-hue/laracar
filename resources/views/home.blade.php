@@ -1,42 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+@extends('layouts.main')
 
-    <title>CDrive | HomePage</title>
+@section('title', 'CDrive | Home')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">     
-        <a class="navbar-brand fw-bold fs-4" href="/">
-            <span class="text-warning">CD</span>rive
-        </a>
-
-        <div class="navbar-nav ms-auto">
-           
-            <a class="nav-link active" href="/">{{ __('messages.home') }}</a>
-            <a class="nav-link" href="#">{{ __('messages.cars') }}</a>
-            <a class="nav-link" href="#">{{ __('messages.contact') }}</a>
-
-            <a class="nav-link" href="/?lang=en">EN</a>
-            <a class="nav-link" href="/?lang=fr">FR</a>
-        </div>
-
-      
-
-    </div>
-</nav>
+@section('content')
 
 
 <div class="container mt-1">
 
-    <div class="text-center pt-2 pb-2">
+    <div class="text-center pt-4 pb-2">
 
         <img
             src="{{ asset('images/logo.png') }}"
@@ -60,7 +31,7 @@
 
             <div class="col-md-4 mb-4">
 
-                <div class="card h-100">
+                <div class="card h-100 car-card">
 
                     @if ($car->photo)
                         <img
@@ -84,7 +55,7 @@
                             CA${{ number_format($car->price_per_day, 2) }} {{ __('messages.per_day') }}
                         </p>
 
-                        <a href="#" class="btn btn-warning mt-auto">
+                        <a href="{{ url('/cars/' . $car->id) }}?lang={{ app()->getLocale() }}" class="btn btn-warning mt-auto">
                              {{ __('messages.view_details') }}
                         </a>
 
@@ -100,6 +71,4 @@
 
 </div>
 
-</body>
-
-</html>
+@endsection

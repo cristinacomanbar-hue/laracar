@@ -14,3 +14,12 @@ Route::get('/', function () {
 
     return view('home', compact('cars'));
 });
+
+Route::get('/cars/{car}', function (Car $car) {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    return view('car-details', compact('car'));
+});
