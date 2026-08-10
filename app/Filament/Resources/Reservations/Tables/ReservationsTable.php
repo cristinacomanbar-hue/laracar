@@ -22,13 +22,18 @@ class ReservationsTable
                     ->searchable(),
                 TextColumn::make('customer_email')
                     ->searchable(),
+               
+
                 TextColumn::make('customer_phone')
-                    ->formatStateUsing(fn ($state) =>
-                        '(' . substr($state, 0, 3) . ') ' .
-                        substr($state, 3, 3) . ' ' .
-                        substr($state, 6, 4)
-                    )
+                    ->formatStateUsing(function ($state) {
+                        $phone = preg_replace('/\D/', '', $state);
+
+                        return '(' . substr($phone, 0, 3) . ') ' .
+                            substr($phone, 3, 3) . ' ' .
+                            substr($phone, 6, 4);
+                    })
                     ->searchable(),
+
                 TextColumn::make('start_date')
                     ->date()
                     ->sortable(),

@@ -19,4 +19,13 @@ class Reservation extends Model
     {
         return $this->belongsTo(Car::class);
     }
+
+    public function scopeOverlapping($query, $carId, $startDate, $endDate)
+    {
+        return $query
+            ->where('car_id', $carId)
+            ->where('start_date', '<=', $endDate)
+            ->where('end_date', '>=', $startDate);
+    }
+
 }

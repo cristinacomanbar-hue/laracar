@@ -7,6 +7,9 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
 use Filament\Forms\Components\Select;
+use Closure;
+use Filament\Schemas\Components\Utilities\Get;
+use Illuminate\Database\Eloquent\Model;
 
 class ReservationForm
 {
@@ -27,11 +30,32 @@ class ReservationForm
                 TextInput::make('customer_phone')
                     ->tel()
                     ->mask('(999) 999 9999')
-                    ->required(),
+                    ->required(),        
                 DatePicker::make('start_date')
-                    ->required(),
+                    ->minDate(today())
+                    ->required(),    
+
                 DatePicker::make('end_date')
+                    ->afterOrEqual('start_date')
+                    ->rules([
+                        fn (Get $get, ?Model $record): Closure => function (string $attribute, $value, Closure $fail) use ($get, $record) {
+                            $query = \App\Models\Reservation::overlapping(
+                                $get('car_id'),
+                                $get('start_date'),
+                                $value
+                            );
+
+                            if ($record) {
+                                $query->whereKeyNot($record->getKey());
+                            }
+
+                            if ($query->exists()) {
+                                $fail('This car is already reserved for the selected period.');
+                            }
+                        },
+                    ])
                     ->required(),
+
                 Textarea::make('message')
                     ->columnSpanFull(),
             ]);
