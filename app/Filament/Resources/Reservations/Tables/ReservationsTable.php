@@ -7,6 +7,8 @@ use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Ysfkaya\FilamentPhoneInput\Tables\PhoneColumn;
+use Ysfkaya\FilamentPhoneInput\PhoneInputNumberType;
 
 class ReservationsTable
 {
@@ -21,17 +23,11 @@ class ReservationsTable
                 TextColumn::make('customer_name')
                     ->searchable(),
                 TextColumn::make('customer_email')
-                    ->searchable(),
-               
-
-                TextColumn::make('customer_phone')
-                    ->formatStateUsing(function ($state) {
-                        $phone = preg_replace('/\D/', '', $state);
-
-                        return '(' . substr($phone, 0, 3) . ') ' .
-                            substr($phone, 3, 3) . ' ' .
-                            substr($phone, 6, 4);
-                    })
+                    ->searchable(),                        
+              
+                PhoneColumn::make('customer_phone')
+                    ->label('Customer phone')
+                    ->displayFormat(PhoneInputNumberType::INTERNATIONAL)
                     ->searchable(),
 
                 TextColumn::make('start_date')

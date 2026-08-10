@@ -10,6 +10,7 @@ use Filament\Forms\Components\Select;
 use Closure;
 use Filament\Schemas\Components\Utilities\Get;
 use Illuminate\Database\Eloquent\Model;
+use Ysfkaya\FilamentPhoneInput\Forms\PhoneInput;
 
 class ReservationForm
 {
@@ -18,8 +19,12 @@ class ReservationForm
         return $schema
             ->components([           
                 Select::make('car_id')
-                    ->label('Car')
-                    ->relationship('car', 'brand')
+                    ->label('Car')                  
+                    ->relationship(
+                        'car',
+                        'brand',
+                        modifyQueryUsing: fn ($query) => $query->where('available', true)
+                    )
                     ->getOptionLabelFromRecordUsing(fn ($record) => $record->brand . ' ' . $record->model)
                     ->required(),
                 TextInput::make('customer_name')
@@ -27,10 +32,15 @@ class ReservationForm
                 TextInput::make('customer_email')
                     ->email()
                     ->required(),
-                TextInput::make('customer_phone')
-                    ->tel()
-                    ->mask('(999) 999 9999')
-                    ->required(),        
+
+                PhoneInput::make('customer_phone')
+                    ->label('Customer phone')
+                    ->initialCountry('ca')
+                    ->separateDialCode()
+                    ->formatAsYouType()
+                    ->strictMode()                   
+                    ->required(),
+
                 DatePicker::make('start_date')
                     ->minDate(today())
                     ->required(),    
