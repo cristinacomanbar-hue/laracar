@@ -15,6 +15,10 @@ class Reservation extends Model
         'end_date',
         'message',
     ];
+    protected $casts = [
+        'start_date' => 'date',
+        'end_date' => 'date',
+    ];
     public function car()
     {
         return $this->belongsTo(Car::class);
