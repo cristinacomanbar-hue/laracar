@@ -29,4 +29,7 @@ return [
     'estimated_total' => 'Total estimé',
     'message' => 'Message',
 
+    'reservation_success' => 'Votre réservation a été envoyée avec succès.',
+    'reservation_overlap' => 'Ce véhicule est déjà réservé pour la période sélectionnée.',
+
 ];

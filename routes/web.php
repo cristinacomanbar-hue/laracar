@@ -37,6 +37,11 @@ Route::get('/cars/{car}/reserve', function (Car $car) {
 
 Route::post('/cars/{car}/reserve', function (Car $car) {
 
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+   
     $data = request()->validate([
         'customer_name' => ['required', 'string', 'max:255'],
         'customer_email' => ['required', 'email', 'max:255'],
@@ -44,7 +49,28 @@ Route::post('/cars/{car}/reserve', function (Car $car) {
         'start_date' => ['required', 'date', 'after_or_equal:today'],
         'end_date' => ['required', 'date', 'after_or_equal:start_date'],
         'message' => ['nullable', 'string'],
+    ], [
+        'customer_name.required' => app()->getLocale() === 'fr'
+        ? 'Le nom est obligatoire.'
+        : 'The name field is required.',
+
+        'customer_email.required' => app()->getLocale() === 'fr'
+            ? 'Le courriel est obligatoire.'
+            : 'The email field is required.',
+
+        'customer_phone.required' => app()->getLocale() === 'fr'
+            ? 'Le téléphone est obligatoire.'
+            : 'The phone field is required.',
+
+        'start_date.required' => app()->getLocale() === 'fr'
+            ? 'La date de début est obligatoire.'
+            : 'The start date field is required.',
+
+        'end_date.required' => app()->getLocale() === 'fr'
+            ? 'La date de fin est obligatoire.'
+            : 'The end date field is required.',
     ]);
+
 
     $data['car_id'] = $car->id;
 
@@ -58,7 +84,7 @@ Route::post('/cars/{car}/reserve', function (Car $car) {
         return back()
             ->withInput()
             ->withErrors([
-                'end_date' => 'This car is already reserved for the selected period.',
+                'end_date' => __('messages.reservation_overlap'),
             ]);
     }
 
@@ -68,7 +94,7 @@ Route::post('/cars/{car}/reserve', function (Car $car) {
         ->route('cars.reserve', [
             'car' => $car,
             'lang' => request('lang'),
-        ])
-        ->with('success', 'Your reservation has been submitted successfully.');
+        ])       
+        ->with('success', __('messages.reservation_success'));
 
 })->name('cars.reserve.store');
