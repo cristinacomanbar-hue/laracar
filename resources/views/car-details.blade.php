@@ -33,7 +33,7 @@
 
     <a href="{{ route('cars.reserve', ['car' => $car, 'lang' => app()->getLocale()]) }}"
         class="btn btn-warning">
-            Reserve this car
+            {{ __('messages.reserve_this_car') }}
     </a>
 
 </div>

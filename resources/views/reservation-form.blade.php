@@ -6,11 +6,13 @@
 
 <div class="container py-5">
 
-    <h1>Reserve {{ $car->brand }} {{ $car->model }}</h1>
+    <h1>
+        {{ __('messages.reserve_car', ['car' => $car->brand . ' ' . $car->model]) }}
+    </h1>
 
-    <p>
-        <strong>Price:</strong>
-        ${{ number_format($car->price_per_day, 2) }} / day
+    <p>     
+        <strong>{{ __('messages.price') }}:</strong>
+        ${{ number_format($car->price_per_day, 2) }} {{ __('messages.per_day') }}
     </p>
 
     @if (session('success'))
@@ -36,7 +38,7 @@
         @csrf
 
         <div class="mb-3">
-            <label class="form-label">Name</label>
+            <label class="form-label">{{ __('messages.name') }}</label>
             <input type="text"
                 name="customer_name"
                 class="form-control"
@@ -44,7 +46,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Email</label>
+            <label class="form-label">{{ __('messages.email') }}</label>
             <input type="email"
                 name="customer_email"
                 class="form-control"
@@ -52,7 +54,7 @@
         </div>
 
         <div class="mb-3">
-            <label class="form-label">Phone</label>
+            <label class="form-label">{{ __('messages.phone') }}</label>
             <input type="tel"
                 id="customer_phone"
                 name="customer_phone"
@@ -62,7 +64,7 @@
 
         <div class="row">
             <div class="col-md-6 mb-3">
-                <label class="form-label">Start date</label>
+                <label class="form-label">{{ __('messages.start_date') }}</label>
               <input type="date"
                     id="start_date"
                     name="start_date"
@@ -72,7 +74,7 @@
             </div>
 
             <div class="col-md-6 mb-3">
-                <label class="form-label">End date</label>
+                <label class="form-label">{{ __('messages.end_date') }}</label>
                 <input type="date"
                     id="end_date"
                     name="end_date"
@@ -81,15 +83,20 @@
             </div>
         </div>
 
+        <div class="mb-3">           
+            <strong>{{ __('messages.estimated_total') }}:</strong>
+            <span id="estimated_total">-</span>
+        </div>
+
         <div class="mb-3">
-            <label class="form-label">Message</label>
+            <label class="form-label">{{ __('messages.message') }}</label>
             <textarea name="message"
                 class="form-control"
                 rows="4">{{ old('message') }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-warning">
-            Reserve
+            {{ __('messages.reserve') }}
         </button>
 
     </form>
@@ -128,6 +135,28 @@
             endDate.value = '';
         }
     });
+
+    function updateEstimatedTotal() {
+        if (!startDate.value || !endDate.value) {
+            document.getElementById('estimated_total').textContent = '-';
+            return;
+        }
+
+        const start = new Date(startDate.value);
+        const end = new Date(endDate.value);
+
+        const days = Math.floor((end - start) / 86400000) + 1;
+        const pricePerDay = {{ $car->price_per_day }};
+
+        const total = days * pricePerDay;
+
+        document.getElementById('estimated_total').textContent =
+            '$' + total.toFixed(2);
+    }
+
+    startDate.addEventListener('change', updateEstimatedTotal);
+    endDate.addEventListener('change', updateEstimatedTotal);
+
 </script>
 
 
