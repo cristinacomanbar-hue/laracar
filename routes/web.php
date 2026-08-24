@@ -88,13 +88,77 @@ Route::post('/cars/{car}/reserve', function (Car $car) {
             ]);
     }
 
-    Reservation::create($data);
+    $reservation = Reservation::create($data);
 
     return redirect()
-        ->route('cars.reserve', [
-            'car' => $car,
+        ->route('reservations.confirmation', [
+            'reservation' => $reservation,
             'lang' => request('lang'),
-        ])       
-        ->with('success', __('messages.reservation_success'));
+        ]);
 
 })->name('cars.reserve.store');
+
+
+Route::get('/reservations/{reservation}/confirmation', function (Reservation $reservation) {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    return view('reservation-confirmation', compact('reservation'));
+})->name('reservations.confirmation');
+
+Route::get('/reservation/find', function () {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    return view('reservation-find');
+
+})->name('reservations.find');
+
+Route::post('/reservation/find', function () {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    $data = request()->validate([
+        'search' => ['required', 'string'],
+    ]);
+
+    $search = trim($data['search']);
+
+    if (ctype_digit($search)) {
+        // Search by reservation number
+        $reservation = Reservation::find((int) $search);
+    } else {
+        // Search by email
+        $reservations = Reservation::where('customer_email', $search)
+            ->orderByDesc('start_date')
+            ->get();
+
+        if ($reservations->count() > 1) {
+            // We'll display the list in the next step.
+            return view('reservation-search-results', compact('reservations'));
+        }
+
+        $reservation = $reservations->first();
+    }
+
+    if (! $reservation) {
+        return back()
+            ->withInput()           
+            ->withErrors([
+                'search' => __('messages.reservation_not_found'),
+            ]);
+    }
+
+    return redirect()->route('reservations.confirmation', [
+        'reservation' => $reservation,
+        'lang' => app()->getLocale(),
+        'source' => 'search',
+    ]);
+
+})->name('reservations.find.search');

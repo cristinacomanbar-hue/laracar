@@ -19,7 +19,11 @@ class ReservationsTable
     {
         return $table
             ->defaultSort('start_date', 'asc')
-            ->columns([         
+            ->columns([                
+                TextColumn::make('id')
+                    ->label('No')                  
+                    ->sortable(),
+
                TextColumn::make('car.brand')
                     ->label('Car')
                     ->formatStateUsing(fn ($record) => $record->car->brand . ' ' . $record->car->model)

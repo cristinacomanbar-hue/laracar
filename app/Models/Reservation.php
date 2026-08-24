@@ -32,4 +32,16 @@ class Reservation extends Model
             ->where('end_date', '>=', $startDate);
     }
 
+
+
+public function formattedPhone(): string
+{
+    try {
+        return phone($this->customer_phone)->formatInternational();
+    } catch (\Throwable $e) {
+        return $this->customer_phone;
+    }
+}
+
+
 }
