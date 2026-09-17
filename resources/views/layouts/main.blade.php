@@ -38,9 +38,9 @@
 
             <a class="nav-link" href="{{ route('reservations.find', ['lang' => app()->getLocale()]) }}">
                 {{ __('messages.reservations') }}
-            </a>
+            </a>       
 
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('contact', ['lang' => app()->getLocale()]) }}">
                 {{ __('messages.contact') }}
             </a>
 

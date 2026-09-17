@@ -68,5 +68,10 @@ return [
     'confirm_cancel_reservation' => 'Are you sure you want to cancel this reservation?',
     'reservation_cancelled' => 'This reservation has been cancelled.',
 
-    
+    'contact_us' => 'Contact us',
+    'name' => 'Name',
+    'send' => 'Send message',
+
+    'contact_success' => 'Your message has been sent successfully.',
+
 ];

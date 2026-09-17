@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\App;
 use App\Models\Car;
 use App\Models\Reservation;
+use App\Models\ContactMessage;
 
 Route::get('/', function () {
 
@@ -181,3 +182,32 @@ Route::post('/reservations/{reservation}/cancel', function (Reservation $reserva
     ]);
 
 })->name('reservations.cancel');
+
+Route::get('/contact', function () {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    return view('contact');
+
+})->name('contact');
+
+Route::post('/contact', function () {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    $data = request()->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'email', 'max:255'],
+        'phone' => ['nullable', 'string', 'max:30'],
+        'message' => ['required', 'string'],
+    ]);
+
+    ContactMessage::create($data);
+
+    return back()->with('success', __('messages.contact_success'));
+
+})->name('contact.store');
