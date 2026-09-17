@@ -60,4 +60,8 @@ return [
     'back_to_reservations' => 'Retour à mes réservations',
     'new_search' => 'Nouvelle recherche',
 
+    'cancel_reservation' => 'Annuler la réservation',
+    'confirm_cancel_reservation' => 'Êtes-vous sûr de vouloir annuler cette réservation ?',
+    'reservation_cancelled' => 'Cette réservation a été annulée.',
+
 ];

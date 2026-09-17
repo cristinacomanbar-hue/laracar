@@ -162,3 +162,22 @@ Route::post('/reservation/find', function () {
     ]);
 
 })->name('reservations.find.search');
+
+
+Route::post('/reservations/{reservation}/cancel', function (Reservation $reservation) {
+
+    if (request('lang')) {
+        App::setLocale(request('lang'));
+    }
+
+    $reservation->update([
+        'status' => 'cancelled',
+    ]);
+
+    return redirect()->route('reservations.confirmation', [
+        'reservation' => $reservation,
+        'lang' => app()->getLocale(),
+        'source' => 'search',
+    ]);
+
+})->name('reservations.cancel');

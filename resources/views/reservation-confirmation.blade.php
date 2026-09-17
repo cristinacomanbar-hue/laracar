@@ -16,9 +16,17 @@
                 : __('messages.reservation_confirmed') }}
         </h1>
 
-            <p class="lead">
-               {{ __('messages.thank_you', ['name' => $reservation->customer_name]) }}
-            </p>
+        @if ($reservation->status === 'cancelled')
+            <div class="alert alert-danger">
+                {{ __('messages.reservation_cancelled') }}
+            </div>
+        @endif
+          
+            @if (request('source') !== 'search')
+                <p class="lead">
+                    {{ __('messages.thank_you', ['name' => $reservation->customer_name]) }}
+                </p>
+            @endif
 
             <hr>         
 
@@ -89,6 +97,25 @@
 
                     <button type="submit" class="btn btn-secondary mt-3 me-2">
                         {{ __('messages.back_to_reservations') }}
+                    </button>
+
+                </form>
+            @endif
+
+            @if ($reservation->status === 'confirmed')
+                <form method="POST"
+                    action="{{ route('reservations.cancel', [
+                        'reservation' => $reservation,
+                        'lang' => app()->getLocale(),
+                    ]) }}"
+                    class="d-inline">
+
+                    @csrf
+
+                    <button type="submit"
+                            class="btn btn-danger mt-3 me-2"
+                            onclick="return confirm('{{ __('messages.confirm_cancel_reservation') }}')">
+                        {{ __('messages.cancel_reservation') }}
                     </button>
 
                 </form>

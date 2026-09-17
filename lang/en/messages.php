@@ -64,4 +64,9 @@ return [
     'back_to_reservations' => 'Back to my reservations',
     'new_search' => 'New search',
 
+    'cancel_reservation' => 'Cancel reservation',
+    'confirm_cancel_reservation' => 'Are you sure you want to cancel this reservation?',
+    'reservation_cancelled' => 'This reservation has been cancelled.',
+
+    
 ];

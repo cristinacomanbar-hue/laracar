@@ -62,6 +62,10 @@ class ReservationsTable
                     ->state(function ($record) {
                         $today = today();
 
+                        if ($record->status === 'cancelled') {
+                            return 'Cancelled';
+                        }
+
                         if ($record->end_date->lt($today)) {
                             return 'Completed';
                         }
@@ -77,6 +81,7 @@ class ReservationsTable
                         'Active' => 'success',
                         'Upcoming' => 'warning',
                         'Completed' => 'gray',
+                        'Cancelled' => 'danger',
                     }),
                 TextColumn::make('created_at')
                     ->dateTime()
@@ -88,23 +93,32 @@ class ReservationsTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
           ->filters([
+               
+
                 SelectFilter::make('status')
                     ->options([
                         'active' => 'Active',
                         'upcoming' => 'Upcoming',
                         'completed' => 'Completed',
+                        'cancelled' => 'Cancelled',
                     ])
                     ->query(function ($query, array $data) {
                         return match ($data['value'] ?? null) {
                             'active' => $query
+                                ->where('status', 'confirmed')
                                 ->whereDate('start_date', '<=', today())
                                 ->whereDate('end_date', '>=', today()),
 
                             'upcoming' => $query
+                                ->where('status', 'confirmed')
                                 ->whereDate('start_date', '>', today()),
 
                             'completed' => $query
+                                ->where('status', 'confirmed')
                                 ->whereDate('end_date', '<', today()),
+
+                            'cancelled' => $query
+                                ->where('status', 'cancelled'),
 
                             default => $query,
                         };

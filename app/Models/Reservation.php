@@ -14,6 +14,7 @@ class Reservation extends Model
         'start_date',
         'end_date',
         'message',
+        'status',
     ];
     protected $casts = [
         'start_date' => 'date',
@@ -28,6 +29,7 @@ class Reservation extends Model
     {
         return $query
             ->where('car_id', $carId)
+            ->where('status', 'confirmed')
             ->where('start_date', '<=', $endDate)
             ->where('end_date', '>=', $startDate);
     }
