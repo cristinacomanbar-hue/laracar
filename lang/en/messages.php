@@ -74,4 +74,9 @@ return [
 
     'contact_success' => 'Your message has been sent successfully.',
 
+    'check_availability' => 'Check availability',
+
+    'no_cars_available' => 'No cars are available for the selected dates.',
+
+
 ];

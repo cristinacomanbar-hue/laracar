@@ -6,15 +6,31 @@ use App\Models\Car;
 use App\Models\Reservation;
 use App\Models\ContactMessage;
 
+
 Route::get('/', function () {
 
     if (request('lang')) {
         App::setLocale(request('lang'));
     }
 
-    $cars = Car::where('available', true)->get();
+    $query = Car::where('available', true);
 
-    return view('home', compact('cars'));
+    $startDate = request('start_date');
+    $endDate = request('end_date');
+
+    if ($startDate && $endDate) {
+
+        $query->whereDoesntHave('reservations', function ($reservationQuery) use ($startDate, $endDate) {
+            $reservationQuery
+                ->where('status', 'confirmed')
+                ->where('start_date', '<=', $endDate)
+                ->where('end_date', '>=', $startDate);
+        });
+    }
+
+    $cars = $query->get();
+
+    return view('home', compact('cars', 'startDate', 'endDate'));
 });
 
 Route::get('/cars/{car}', function (Car $car) {

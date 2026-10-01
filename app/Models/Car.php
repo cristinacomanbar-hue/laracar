@@ -18,4 +18,10 @@ class Car extends Model
         'category',
         'photo',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
 }

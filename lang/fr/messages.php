@@ -70,4 +70,9 @@ return [
 
     'contact_success' => 'Votre message a été envoyé avec succès.',
 
+
+    'check_availability' => 'Vérifier la disponibilité',
+
+    'no_cars_available' => 'Aucune voiture n’est disponible pour les dates sélectionnées.',
+
 ];

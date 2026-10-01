@@ -68,8 +68,8 @@
               <input type="date"
                     id="start_date"
                     name="start_date"
-                    class="form-control"
-                    value="{{ old('start_date') }}"
+                    class="form-control"                   
+                    value="{{ old('start_date', request('start_date')) }}"
                     min="{{ date('Y-m-d') }}">
             </div>
 
@@ -79,7 +79,8 @@
                     id="end_date"
                     name="end_date"
                     class="form-control"
-                    value="{{ old('end_date') }}">
+                
+                    value="{{ old('end_date', request('end_date')) }}">
             </div>
         </div>
 
@@ -156,6 +157,7 @@
 
     startDate.addEventListener('change', updateEstimatedTotal);
     endDate.addEventListener('change', updateEstimatedTotal);
+    updateEstimatedTotal();
 
 </script>
 

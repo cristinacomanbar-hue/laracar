@@ -25,9 +25,55 @@
 
     </div>
 
+    <form method="GET" action="{{ url('/') }}" class="card shadow-sm p-3 mb-4">
+    <input type="hidden" name="lang" value="{{ app()->getLocale() }}">
+
+    <div class="row align-items-end">
+
+        <div class="col-md-5">
+            <label class="form-label">
+                {{ __('messages.start_date') }}
+            </label>
+
+            <input type="date"
+                   name="start_date"
+                   class="form-control"
+                   min="{{ date('Y-m-d') }}"
+                   value="{{ $startDate }}">
+        </div>
+
+        <div class="col-md-5">
+            <label class="form-label">
+                {{ __('messages.end_date') }}
+            </label>
+
+            <input type="date"
+                   name="end_date"
+                   class="form-control"
+                   min="{{ date('Y-m-d') }}"
+                   value="{{ $endDate }}">
+        </div>
+
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-warning w-100">
+                {{ __('messages.check_availability') }}
+            </button>
+        </div>
+
+    </div>
+</form>
+
     <div class="row mt-3">
 
         @foreach ($cars as $car)
+
+            @if ($cars->isEmpty())
+                <div class="col-12">
+                    <div class="alert alert-warning text-center">
+                        {{ __('messages.no_cars_available') }}
+                    </div>
+                </div>
+            @endif
 
             <div class="col-md-4 mb-4">
 
@@ -53,10 +99,11 @@
                         <p class="card-text">
                             <strong>{{ __('messages.price') }}:</strong>                        
                             CA${{ number_format($car->price_per_day, 2) }} {{ __('messages.per_day') }}
-                        </p>
+                        </p>                   
 
-                        <a href="{{ url('/cars/' . $car->id) }}?lang={{ app()->getLocale() }}" class="btn btn-warning mt-auto">
-                             {{ __('messages.view_details') }}
+                        <a href="{{ url('/cars/' . $car->id) }}?lang={{ app()->getLocale() }}&start_date={{ $startDate }}&end_date={{ $endDate }}"
+                            class="btn btn-warning mt-auto">
+                                {{ __('messages.view_details') }}
                         </a>
 
                     </div>
@@ -70,5 +117,18 @@
     </div>
 
 </div>
+
+<script>
+    const startDate = document.querySelector('input[name="start_date"]');
+    const endDate = document.querySelector('input[name="end_date"]');
+
+    startDate.addEventListener('change', function () {
+        endDate.min = this.value;
+
+        if (endDate.value && endDate.value < this.value) {
+            endDate.value = '';
+        }
+    });
+</script>
 
 @endsection

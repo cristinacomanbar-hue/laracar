@@ -31,7 +31,13 @@
         ← {{ __('messages.home') }}
     </a>
 
-    <a href="{{ route('cars.reserve', ['car' => $car, 'lang' => app()->getLocale()]) }}"
+
+    <a href="{{ route('cars.reserve', [
+            'car' => $car,
+            'lang' => app()->getLocale(),
+            'start_date' => request('start_date'),
+            'end_date' => request('end_date')
+        ]) }}"
         class="btn btn-warning">
             {{ __('messages.reserve_this_car') }}
     </a>
