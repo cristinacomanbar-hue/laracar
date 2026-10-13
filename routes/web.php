@@ -6,6 +6,7 @@ use App\Models\Car;
 use App\Models\Reservation;
 use App\Models\ContactMessage;
 use App\Mail\ReservationConfirmation;
+use App\Mail\ReservationCancelled;
 use Illuminate\Support\Facades\Mail;
 
 
@@ -196,6 +197,9 @@ Route::post('/reservations/{reservation}/cancel', function (Reservation $reserva
     $reservation->update([
         'status' => 'cancelled',
     ]);
+
+    Mail::to($reservation->customer_email)
+    ->send(new ReservationCancelled($reservation, app()->getLocale()));
 
     return redirect()->route('reservations.confirmation', [
         'reservation' => $reservation,
