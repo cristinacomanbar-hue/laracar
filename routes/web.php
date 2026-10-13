@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\App;
 use App\Models\Car;
 use App\Models\Reservation;
 use App\Models\ContactMessage;
+use App\Mail\ReservationConfirmation;
+use Illuminate\Support\Facades\Mail;
 
 
 Route::get('/', function () {
@@ -106,6 +108,10 @@ Route::post('/cars/{car}/reserve', function (Car $car) {
     }
 
     $reservation = Reservation::create($data);
+
+    Mail::to($reservation->customer_email)
+
+    ->send(new ReservationConfirmation($reservation, app()->getLocale()));
 
     return redirect()
         ->route('reservations.confirmation', [
