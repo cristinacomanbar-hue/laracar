@@ -8,6 +8,7 @@ use App\Models\ContactMessage;
 use App\Mail\ReservationConfirmation;
 use App\Mail\ReservationCancelled;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\ContactMessageReceived;
 
 
 Route::get('/', function () {
@@ -232,7 +233,11 @@ Route::post('/contact', function () {
         'message' => ['required', 'string'],
     ]);
 
-    ContactMessage::create($data);
+
+    $contactMessage = ContactMessage::create($data);
+
+    Mail::to('admin@example.com')
+    ->send(new ContactMessageReceived($contactMessage));
 
     return back()->with('success', __('messages.contact_success'));
 
